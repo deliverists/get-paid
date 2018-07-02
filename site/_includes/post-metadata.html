@@ -1,0 +1,6 @@
+{% if page.shortDescription %}
+  <h2>{{ page.shortDescription }}</h2>
+{% endif %}
+{% if page.date %}
+  <div class="published">published: {{ page.date | date: "%-d %B %Y" }}</div>
+{% endif %}

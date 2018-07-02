@@ -1,0 +1,24 @@
+body {
+  font: 16px/1.5 -apple-system,BlinkMacSystemFont,"avenir next",avenir,"Segoe UI","lucida grande","helvetica neue",helvetica,"Fira Sans",roboto,noto,"Droid Sans",cantarell,oxygen,ubuntu,"franklin gothic medium","century gothic","Liberation Sans",sans-serif;
+  color: #454545;
+  background-image: url(/assets/images/geek-half.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  word-break: break-word;
+}
+
+a {
+  color: #07a;
+}
+
+a:visited {
+  color: #941352;
+}
+
+@media (max-width: 750px) {
+  ul {
+    &.no-indent {
+      list-style-type: none;
+    }
+  }
+} 

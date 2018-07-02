@@ -1,0 +1,9 @@
+production_url: 'https://get-paid.com'
+baseurl: ''
+encoding: utf-8
+markdown: kramdown
+highlighter: rouge
+source: site
+destination: 'dist/_site'
+sass:
+  style: compressed

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+cd functions/origin-request
+yarn
+yarn test
+cd ../viewer-request
+yarn
+yarn test

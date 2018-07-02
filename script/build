@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+rm -rf dist
+mkdir -p dist
+
+bundle exec jekyll build
+
+cd ./functions/origin-request
+yarn install --production
+cp -r ../node_modules/* node_modules/
+zip -r ../../dist/origin-request-function.zip index.js node_modules/
+cd ../..

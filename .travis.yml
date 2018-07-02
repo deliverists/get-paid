@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - "10"
+rvm:
+  - 2.3.3
+python:
+  - "3.5"
+cache:
+  pip: true
+  bundler: true
+  directories:
+  - /home/travis/.rvm/
+  - ./functions/origin-request/node_modules/
+install:
+  - pip install --user awscli
+  - bundle install
+script:
+  - ./script/build
+  - ./script/deploy
+env:
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+branches:
+  only:
+  - master
+  - testing
+sudo: false

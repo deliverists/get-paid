@@ -1,0 +1,25 @@
+article {
+  .published {
+    font-style: italic;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+
+    &.full-width {
+      width: 100%;
+    }
+
+    &.logo-inset {
+      width: 70px;
+      display: block;
+      margin: auto;
+      padding-top: 20px;
+
+      &.thin {
+        width: 140px;
+      }
+    }
+  }
+}

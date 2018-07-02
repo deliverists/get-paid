@@ -1,0 +1,11 @@
+{% if paginator.previous_page or paginator.next_page %}
+  <nav class="post-navigation">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | remove:'.html'}}">&laquo; Newer Posts</a> 
+    {% endif %}
+
+    {% if paginator.next_page %}
+      <a class="next" href="{{ paginator.next_page_path | remove:'.html'}}">Older Posts &raquo;</a>
+    {% endif %}
+  </nav>
+{% endif %}

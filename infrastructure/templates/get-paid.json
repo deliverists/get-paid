@@ -1,0 +1,88 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "get-paid website",
+  "Parameters" : {
+    "BranchName" : {
+      "Type" : "String",
+      "Default" : "testing",
+      "AllowedValues" : ["master", "testing"],
+      "Description" : "master(prod) or testing branch"
+    }
+  },
+  "Conditions" : {
+    "ProductionBuild" : {"Fn::Equals" : [{"Ref" : "BranchName"}, "master"]}
+  },
+  "Resources": {
+    "ContentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private"
+      }
+    },
+    "ContentBucketReadPolicy" : {
+      "Type" : "AWS::S3::BucketPolicy",
+      "Properties" : {
+        "Bucket" : {"Ref" : "ContentBucket"},
+        "PolicyDocument": {
+          "Id": "Origin-Identity-Get-Access",
+          "Statement": [{
+            "Action": ["s3:GetObject"],
+            "Effect": "Allow",
+            "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ContentBucket" } , "/*" ]]},
+            "Principal": {
+              "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity EYMUL4VP44ACS"
+            }
+          }]
+        }
+      }
+    },
+    "WebsiteDistribution": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Comment": { "Fn::Join" : ["", ["website - ", { "Ref" : "BranchName" } ]]},
+          "Enabled": "true",
+          "PriceClass": { "Fn::Join" : ["", ["PriceClass_", { "Fn::If": ["ProductionBuild", "200", "100"] } ]]},
+          "ViewerCertificate" : {
+            "CloudFrontDefaultCertificate" : "true"
+          },
+          "Logging" : {
+            "IncludeCookies" : "false",
+            "Bucket" : "nickmeldrum-com-logs.s3.amazonaws.com",
+            "Prefix": { "Fn::Join" : ["", ["get-paid-cf-logs-", { "Ref" : "BranchName" }, "/" ]]}
+          },
+          "DefaultCacheBehavior" : {
+            "AllowedMethods" : [ "GET", "HEAD" ],
+            "TargetOriginId" : "content-origin",
+            "ForwardedValues" : {
+              "QueryString" : "false",
+              "Cookies" : { "Forward" : "none" }
+            },
+            "ViewerProtocolPolicy" : "redirect-to-https"
+          },
+          "CustomErrorResponses": [
+            {
+              "ErrorCode": 403,
+              "ResponsePagePath": "/404",
+              "ResponseCode": 404
+            },
+            {
+              "ErrorCode": 404,
+              "ResponsePagePath": "/404",
+              "ResponseCode": 404
+            }
+          ],
+          "Origins": [
+            {
+              "DomainName": {"Fn::GetAtt": ["ContentBucket", "DomainName"]},
+              "Id" : "content-origin",
+              "S3OriginConfig" : {
+                "OriginAccessIdentity" : "origin-access-identity/cloudfront/EYMUL4VP44ACS"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

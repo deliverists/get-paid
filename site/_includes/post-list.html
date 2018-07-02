@@ -1,0 +1,13 @@
+{% if paginator.total_posts > 0 %}
+<h2>Recent articles</h2>
+<ul class="no-indent">
+  {% for post in paginator.posts %}
+    <li>
+      <h3><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h3>
+      <div class="published">published: {{ post.date | date: "%-d %B %Y" }}</div>
+      <p>{% if post.shortDescription %}{{ post.shortDescription }}{% endif %}</p>
+      <p>{% if post.description %}{{ post.description }}{% else %}{{ post.excerpt | strip_html }}{% endif %}</p>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}
