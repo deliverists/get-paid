@@ -1,6 +1,6 @@
 import Aws from 'aws-sdk'
 import dnsimple from 'dnsimple'
-import getConfig from 'src/config'
+import getConfig from 'lib/config'
 
 let config
 let acm

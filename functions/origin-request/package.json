@@ -7,9 +7,10 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "node ./index.js",
-    "test": "eslint ./**/*.js && jest --verbose",
-    "test:watch": "jest --watch --notify"
+    "setup": "ln -fhs ../lib node_modules",
+    "start": "yarn setup && node ./index.js",
+    "test": "yarn setup && eslint ./**/*.js && jest --verbose",
+    "test:watch": "yarn setup && jest --watch --notify"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

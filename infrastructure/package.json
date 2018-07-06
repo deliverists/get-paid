@@ -7,7 +7,8 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "ln -sf ../src node_modules/src && node --experimental-modules index.mjs"
+    "setup": "ln -fhs ../lib node_modules/lib",
+    "start": "yarn setup && node --experimental-modules index.mjs"
   },
   "dependencies": {
     "aws-sdk": "^2.254.1",

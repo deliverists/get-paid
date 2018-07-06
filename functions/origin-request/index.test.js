@@ -1,5 +1,5 @@
 const { handler } = require('./index')
-const testHandler = require('test-lambda-edge-handler')
+const testHandler = require('lib/test-lambda-edge-handler')
 
 describe('origin request handler', () => {
   ;[

@@ -1,5 +1,5 @@
 import Aws from 'aws-sdk'
-import { readJsonFile } from 'src/file/read-local-file'
+import { readJsonFile } from 'lib/file/read-local-file'
 import getBranchName from './branch-name'
 import { interpolateAllValues } from './interpolate'
 

@@ -1,7 +1,7 @@
-import { setup } from 'src/config'
-import createOrUpdateStack from 'src/cloudformation'
-import updateContent from 'src/s3'
-import createOrUpdateLambda from 'src/lambda'
+import { setup } from 'lib/config'
+import createOrUpdateStack from 'lib/cloudformation'
+import updateContent from 'lib/s3'
+import createOrUpdateLambda from 'lib/lambda'
 
 const executeasync = async () => {
   await setup()

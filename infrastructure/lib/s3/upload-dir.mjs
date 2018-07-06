@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import mime from 'mime-types'
 import Aws from 'aws-sdk'
-import dirname from 'src/file/dir-name'
+import dirname from 'lib/file/dir-name'
 
 let s3
 

@@ -1,6 +1,6 @@
 import Aws from 'aws-sdk'
-import getConfig from 'src/config'
-import { getStream } from 'src/file/read-local-file'
+import getConfig from 'lib/config'
+import { getStream } from 'lib/file/read-local-file'
 
 let config
 let s3

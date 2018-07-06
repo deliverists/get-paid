@@ -1,7 +1,7 @@
 import Aws from 'aws-sdk'
-import getConfig from 'src/config'
-import { getResourceId } from 'src/cloudformation'
-import { invalidate } from 'src/cloudfront'
+import getConfig from 'lib/config'
+import { getResourceId } from 'lib/cloudformation'
+import { invalidate } from 'lib/cloudfront'
 import uploadDir from './upload-dir'
 
 const addRobotsForNonProd = async (config, Bucket) => {

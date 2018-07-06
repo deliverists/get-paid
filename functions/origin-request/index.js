@@ -1,6 +1,6 @@
 const path = require('path')
-const { pipe } = require('functional')
-const redirect = require('redirect')
+const { pipe } = require('lib/functional')
+const redirect = require('lib/redirect')
 
 const rewriteRequestWithExtension = request => {
   const { uri } = request
