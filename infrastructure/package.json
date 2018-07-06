@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "setup": "ln -fhs ../lib node_modules/lib",
+    "setup": "ln -fhs ../lib node_modules",
     "start": "yarn setup && node --experimental-modules index.mjs"
   },
   "dependencies": {

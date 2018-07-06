@@ -12,6 +12,8 @@
     "test": "yarn setup && eslint ./**/*.js && jest --verbose",
     "test:watch": "yarn setup && jest --watch --notify"
   },
+  "dependencies": {
+  },
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -20,7 +22,5 @@
     "eslint-plugin-prettier": "^2.6.0",
     "prettier": "^1.11.1",
     "jest": "^22.4.3"
-  },
-  "dependencies": {
   }
 }
