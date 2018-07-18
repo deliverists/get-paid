@@ -34,7 +34,7 @@ export default async (bucket, sourcePath) => {
     const params = {
       Key: bucketPath,
       Body: fs.readFileSync(filePath),
-      ContentType: mime.lookup(filePath),
+      ContentType: mime.lookup(filePath) || 'text/plain',
     }
     console.log(await s3.upload(params).promise())
   })

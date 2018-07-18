@@ -1,0 +1,10 @@
+type Invoice {
+  Code: ID!
+  Date: String
+}
+type Query {
+  getInvoice(Code: ID!): Invoice
+}
+type Schema {
+  query: Query
+}

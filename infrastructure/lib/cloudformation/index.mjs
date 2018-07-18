@@ -41,13 +41,22 @@ const created = async () => {
   return list.StackSummaries.some(stack => stack.StackName === config.stackName)
 }
 
-const syncTemplate = async () => {
-  console.log('syncing template...')
+const syncTemplates = async () => {
+  console.log('syncing templates...')
   console.log(
     await s3
       .upload({
         Key: config.stackTemplateName,
         Body: getStream(`templates/${config.stackTemplateName}`),
+      })
+      .promise(),
+  )
+  console.log(
+    await s3
+      .upload({
+        Key: config.graphqlSchemaLocation,
+        Body: getStream(`templates/${config.graphqlSchemaLocation}`),
+        ACL: 'public-read',
       })
       .promise(),
   )
@@ -90,6 +99,12 @@ const getParameters = () => [
     ParameterKey: 'BranchName',
     ParameterValue: config.branchName,
   },
+  {
+    ParameterKey: 'SchemaS3Location',
+    ParameterValue: `https://s3.amazonaws.com/${config.stackTemplateBucket}/${
+      config.graphqlSchemaLocation
+    }`,
+  },
 ]
 
 const createStack = async () => {
@@ -131,7 +146,7 @@ const createChangeSet = async StackName => {
       TemplateURL: templateUrl,
       ChangeSetType: 'UPDATE',
       Parameters: getParameters(),
-      ResourceTypes: ['AWS::*'],
+      Capabilities: ['CAPABILITY_NAMED_IAM'],
     })
     .promise()
 
@@ -197,7 +212,7 @@ const update = async () => {
 const createOrUpdate = async () => {
   console.log('## create or update stack ##')
   await init()
-  await syncTemplate()
+  await syncTemplates()
   if (await created()) await update()
   else await create()
 }

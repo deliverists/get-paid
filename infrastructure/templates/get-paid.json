@@ -7,6 +7,10 @@
       "Default" : "testing",
       "AllowedValues" : ["master", "testing"],
       "Description" : "master(prod) or testing branch"
+    },
+    "SchemaS3Location" : {
+      "Type" : "String",
+      "Description" : "s3 location of the graphql schema"
     }
   },
   "Conditions" : {
@@ -81,6 +85,119 @@
               }
             }
           ]
+        }
+      }
+    },
+    "DynamoDBRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": "get_paid_appsync_dynamo_role",
+        "ManagedPolicyArns": [
+          {
+            "Ref": "AppSyncDynamoDBPolicy"
+          }
+        ],
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sts:AssumeRole"
+                  ],
+                  "Principal": {
+                    "Service": [
+                      "appsync.amazonaws.com"
+                    ]
+                  }
+            }
+          ]
+        }
+      },
+      "DependsOn": [
+        "AppSyncDynamoDBPolicy"
+        ]
+    },
+    "AppSyncDynamoDBPolicy": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "Properties": {
+        "Description": "Managed policy to allow AWS AppSync to access the tables created by this template.",
+        "Path": "/appsync/",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem"
+              ],
+              "Resource": { "Fn::Join" : ["", [{"Fn::GetAtt": ["InvoicesDynamoTable", "Arn"]}, "*"]]}
+            }
+          ]
+        }
+      }
+    },
+    "InvoicesDynamoTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Description": "Data store for Invoices",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "Code",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "Date",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "Code",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "Date",
+            "KeyType": "RANGE"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 2,
+          "WriteCapacityUnits": 2
+        }
+      }
+    },
+    "AppSyncApi": {
+      "Type": "AWS::AppSync::GraphQLApi",
+      "Properties": {
+      "Name": "get_paid_api",
+      "AuthenticationType": "API_KEY"
+      }
+    },
+    "AppSyncSchema": {
+      "Type": "AWS::AppSync::GraphQLSchema",
+      "Properties": {
+        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
+        "DefinitionS3Location": {"Ref" : "SchemaS3Location"}
+      }
+    },
+    "AppSyncInvoicesDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties": {
+        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
+        "Name": "invoices_table",
+        "Type": "AMAZON_DYNAMODB",
+        "ServiceRoleArn": {"Fn::GetAtt": ["DynamoDBRole", "Arn"]},
+        "DynamoDBConfig": {
+          "TableName": {"Ref": "InvoicesDynamoTable"},
+          "AwsRegion": {"Fn::Sub": "${AWS::Region}"}
         }
       }
     }
