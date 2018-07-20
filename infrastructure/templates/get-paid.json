@@ -185,7 +185,19 @@
       "Type": "AWS::AppSync::GraphQLSchema",
       "Properties": {
         "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
-        "DefinitionS3Location": {"Ref" : "SchemaS3Location"}
+        "Definition": "type Invoice {\n Code: ID!\n Date: String\n }\n type Query {\n  getInvoice(Code: ID!): Invoice\n }\n type Schema {\n  query: Query\n }"
+      }
+    },
+    "AppSyncGetInvoiceQueryResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "DependsOn": "AppSyncSchema",
+      "Properties": {
+        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
+        "TypeName": "Query",
+        "FieldName": "getInvoice",
+        "DataSourceName": {"Fn::GetAtt": ["AppSyncInvoicesDataSource", "Name"]},
+        "RequestMappingTemplate": "{\n \"version\": \"2012-02-28\",\n \"operation\": \"GetItem\",\n \"key\": {\n \"Code\": $util.dynamodb.toDynamoDBJson($ctx.args.Code) }\n }\n",
+        "ResponseMappingTemplate": "$util.toJson($ctx.result)"
       }
     },
     "AppSyncInvoicesDataSource": {
