@@ -146,26 +146,17 @@
     },
     "InvoicesDynamoTable": {
       "Type": "AWS::DynamoDB::Table",
-      "Description": "Data store for Invoices",
       "Properties": {
         "AttributeDefinitions": [
           {
-            "AttributeName": "Code",
-            "AttributeType": "S"
-          },
-          {
-            "AttributeName": "Date",
+            "AttributeName": "id",
             "AttributeType": "S"
           }
         ],
         "KeySchema": [
           {
-            "AttributeName": "Code",
+            "AttributeName": "id",
             "KeyType": "HASH"
-          },
-          {
-            "AttributeName": "Date",
-            "KeyType": "RANGE"
           }
         ],
         "ProvisionedThroughput": {
@@ -177,15 +168,22 @@
     "AppSyncApi": {
       "Type": "AWS::AppSync::GraphQLApi",
       "Properties": {
-      "Name": "get_paid_api",
-      "AuthenticationType": "API_KEY"
+        "Name": "get_paid_api",
+        "AuthenticationType": "API_KEY"
+      }
+    },
+    "AppSyncApiKey": {
+      "Type" : "AWS::AppSync::ApiKey",
+      "Properties" : {
+        "Expires" : 1532761977,
+        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]}
       }
     },
     "AppSyncSchema": {
       "Type": "AWS::AppSync::GraphQLSchema",
       "Properties": {
         "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
-        "Definition": "type Invoice {\n Code: ID!\n Date: String\n }\n type Query {\n  getInvoice(Code: ID!): Invoice\n }\n type Schema {\n  query: Query\n }"
+        "Definition": "type Invoice {\n id: ID!\n date: String\n }\n type Root {\n invoice(id: ID!): Invoice\n }\n schema {\n query: Root\n }\n"
       }
     },
     "AppSyncGetInvoiceQueryResolver": {
@@ -193,10 +191,10 @@
       "DependsOn": "AppSyncSchema",
       "Properties": {
         "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
-        "TypeName": "Query",
-        "FieldName": "getInvoice",
+        "TypeName": "Root",
+        "FieldName": "invoice",
         "DataSourceName": {"Fn::GetAtt": ["AppSyncInvoicesDataSource", "Name"]},
-        "RequestMappingTemplate": "{\n \"version\": \"2012-02-28\",\n \"operation\": \"GetItem\",\n \"key\": {\n \"Code\": $util.dynamodb.toDynamoDBJson($ctx.args.Code) }\n }\n",
+        "RequestMappingTemplate": "{\n \"version\": \"2017-02-28\",\n \"operation\": \"GetItem\",\n \"key\": {\n \"id\": $util.dynamodb.toDynamoDBJson($ctx.args.id),\n }\n }\n",
         "ResponseMappingTemplate": "$util.toJson($ctx.result)"
       }
     },
