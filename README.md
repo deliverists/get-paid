@@ -3,10 +3,7 @@
 ## todo
 
  * test schema sdl file uploaded to s3 (along with cf template)
- * test graphql api created correctly using the schema
- * add the api key generation and linking
- * add the resolvers
- * test querying our graphql api
+ * get graphql and dynamodb working locally
 
  * build expo/react native simple app that uses the graphql api
  * reuse expo work to create a website version (reusing all same code possible?)
