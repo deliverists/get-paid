@@ -1,7 +1,11 @@
-import { promisify } from 'util'
 import Aws from 'aws-sdk'
 import getConfig from 'lib/config'
-import { getStream, readJsonFile, writeJsonToFile } from 'lib/file/read-local-file'
+import {
+  getStream,
+  readJsonFile,
+  writeObjectToJsonFile,
+} from 'lib/file/read-local-file'
+import tables from '../../../dynamo/lib/create/tables'
 
 let config
 let s3
@@ -48,9 +52,13 @@ const generateCloudFormationTemplates = async () => {
     `${config.templatesSourceLocation}/${config.stackTemplateName}.template`,
     'utf8',
   )
-  // TODO: fiddle with json
-  // delete existing .json file or ensure an overwrite
-  await writeJsonToFile(
+  tables.forEach(table => {
+    templateJson.Resources[`${table.TableName}DynamoTable`] = {
+      Type: 'AWS::DynamoDB::Table',
+      Properties: table.Properties,
+    }
+  })
+  await writeObjectToJsonFile(
     `${config.templatesSourceLocation}/${config.stackTemplateName}`,
     templateJson,
   )

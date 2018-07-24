@@ -1,11 +1,14 @@
 import tables from './tables'
 
-const recreateTable = async (dynamo, params) => {
+const recreateTable = async (dynamo, table) => {
+  const name = { TableName: table.TableName }
   const list = await dynamo.listTables().promise()
-  if (list.TableNames.includes(params.TableName))
-    await dynamo.deleteTable({ TableName: params.TableName }).promise()
-  const table = await dynamo.createTable(params).promise()
-  console.log(table)
+  if (list.TableNames.includes(table.TableName))
+    await dynamo.deleteTable(name).promise()
+  const info = await dynamo
+    .createTable(Object.assign({}, table.Properties, name))
+    .promise()
+  console.log(info)
 }
 
 export default async dynamo => {

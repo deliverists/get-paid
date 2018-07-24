@@ -34,5 +34,5 @@ export const getStream = filename => {
 export const readJsonFile = async filename =>
   JSON.parse(await readTextFile(filename))
 
-export const writeObjectToFileAsJson = async (filename, object) =>
+export const writeObjectToJsonFile = async (filename, object) =>
   writeTextToFile(filename, JSON.stringify(object))
