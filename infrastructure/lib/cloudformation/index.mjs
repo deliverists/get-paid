@@ -1,6 +1,7 @@
+import { promisify } from 'util'
 import Aws from 'aws-sdk'
 import getConfig from 'lib/config'
-import { getStream } from 'lib/file/read-local-file'
+import { getStream, readJsonFile, writeJsonToFile } from 'lib/file/read-local-file'
 
 let config
 let s3
@@ -39,6 +40,20 @@ const created = async () => {
     .promise()
 
   return list.StackSummaries.some(stack => stack.StackName === config.stackName)
+}
+
+const generateCloudFormationTemplates = async () => {
+  console.log('generating cloudformation template...')
+  const templateJson = await readJsonFile(
+    `${config.templatesSourceLocation}/${config.stackTemplateName}.template`,
+    'utf8',
+  )
+  // TODO: fiddle with json
+  // delete existing .json file or ensure an overwrite
+  await writeJsonToFile(
+    `${config.templatesSourceLocation}/${config.stackTemplateName}`,
+    templateJson,
+  )
 }
 
 const syncTemplates = async () => {
@@ -212,6 +227,7 @@ const update = async () => {
 const createOrUpdate = async () => {
   console.log('## create or update stack ##')
   await init()
+  await generateCloudFormationTemplates()
   await syncTemplates()
   if (await created()) await update()
   else await create()
