@@ -9,6 +9,16 @@ const recreateTable = async (dynamo, table) => {
     .createTable(Object.assign({}, table.Properties, name))
     .promise()
   console.log(info)
+  const itemInfo = await dynamo
+    .putItem({
+      TableName: 'Invoices',
+      Item: {
+        id: { S: '123' },
+        date: { S: 'some date string' },
+      },
+    })
+    .promise()
+  console.log(itemInfo)
 }
 
 export default async dynamo => {

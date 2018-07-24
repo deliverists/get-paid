@@ -1,5 +1,7 @@
+import init from 'lib/schema'
+
 const executeasync = async () => {
-  console.log('graph')
+  init()
 }
 
 executeasync().catch(e => {
