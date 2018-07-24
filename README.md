@@ -1,5 +1,17 @@
 # get-paid
 
+## local be
+
+### pre-reqs:
+
+ * docker client
+
+### installation:
+
+ * `run-local-be` will start up the docker container
+ * you can then browse to the dynamodb shell here: `http://localhost:8000/shell/`
+ * or you can interact with the dynamodb with the awscli like: `aws dynamodb <command> --endpoint-url http://localhost:8000`
+
 ## todo
 
  * test schema sdl file uploaded to s3 (along with cf template)
