@@ -1,5 +1,16 @@
 # get-paid
 
+## local mobile
+
+### pre-reqs:
+
+ * setup local machine using steps here: https://docs.expo.io/versions/v28.0.0/introduction/installation.html
+
+### running in dev mode with watcher on android device:
+
+ * in 1 terminal: `exp start --lan`
+ * in another: `exp android`
+
 ## local be
 
 ### pre-reqs:
