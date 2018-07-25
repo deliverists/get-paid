@@ -4,6 +4,7 @@ import {
   getStream,
   readJsonFile,
   writeObjectToJsonFile,
+  deleteFile,
 } from 'lib/file/read-local-file'
 import tables from '../../../dynamo/lib/create/tables'
 
@@ -49,7 +50,7 @@ const created = async () => {
 const generateCloudFormationTemplates = async () => {
   console.log('generating cloudformation template...')
   const templateJson = await readJsonFile(
-    `${config.templatesSourceLocation}/${config.stackTemplateName}.template`,
+    `template.${config.templatesSourceLocation}/${config.stackTemplateName}`,
     'utf8',
   )
   tables.forEach(table => {
@@ -74,6 +75,7 @@ const syncTemplates = async () => {
       })
       .promise(),
   )
+  deleteFile(`templates/${config.stackTemplateName}`)
   console.log(
     await s3
       .upload({

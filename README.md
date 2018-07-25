@@ -14,8 +14,10 @@
 
 ## todo
 
- * test schema sdl file uploaded to s3 (along with cf template)
- * get graphql and dynamodb working locally
+ * rename read-local-file to some sort of filesystem helper
+
+ * get schema shared between local and cf
+ * get resolvers shared between local and cf
 
  * build expo/react native simple app that uses the graphql api
  * reuse expo work to create a website version (reusing all same code possible?)

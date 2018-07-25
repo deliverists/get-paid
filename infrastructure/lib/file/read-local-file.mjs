@@ -3,18 +3,20 @@ import path from 'path'
 import util from 'util'
 import dirname from './dir-name'
 
+const read = util.promisify(fs.readFile)
+const write = util.promisify(fs.writeFile)
+const unlink = util.promisify(fs.unlink)
+
 const getAbsolutePath = filename => path.join(dirname, '../..', filename)
 
 const readTextFile = async filename => {
   const filePath = getAbsolutePath(filename)
-  const readFile = util.promisify(fs.readFile)
-  return readFile(filePath, 'utf8')
+  return read(filePath, 'utf8')
 }
 
 const writeTextToFile = async (filename, string) => {
   const filePath = getAbsolutePath(filename)
-  const writeFile = util.promisify(fs.writeFile)
-  return writeFile(filePath, string, 'utf8')
+  return write(filePath, string, 'utf8')
 }
 
 export const readBinaryFileSync = filename => {
@@ -36,3 +38,5 @@ export const readJsonFile = async filename =>
 
 export const writeObjectToJsonFile = async (filename, object) =>
   writeTextToFile(filename, JSON.stringify(object))
+
+export const deleteFile = async filename => unlink(getAbsolutePath(filename))
