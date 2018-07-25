@@ -66,6 +66,16 @@ const generateCloudFormationTemplates = async () => {
   templateJson.Resources.AppSyncSchema.Properties.Definition = await readTextFile(
     filenameRelativeToInfrastructure(config.graphqlSchemaLocation),
   )
+  templateJson.Resources.AppSyncGetInvoiceQueryResolver.Properties.RequestMappingTemplate = await readTextFile(
+    filenameRelativeToInfrastructure(
+      'templates/invoices.requestmappingtemplate.vtl',
+    ),
+  )
+  templateJson.Resources.AppSyncGetInvoiceQueryResolver.Properties.ResponseMappingTemplate = await readTextFile(
+    filenameRelativeToInfrastructure(
+      'templates/invoices.responsemappingtemplate.vtl',
+    ),
+  )
   await writeObjectToJsonFile(
     filenameRelativeToInfrastructure(
       `${config.templatesSourceLocation}/${config.stackTemplateName}`,
