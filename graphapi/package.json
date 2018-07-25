@@ -8,13 +8,14 @@
   "private": true,
   "scripts": {
     "setup": "ln -fs ../lib node_modules",
-    "start": "yarn setup && node --experimental-modules index.mjs"
+    "start": "yarn setup && nodemon --experimental-modules index.mjs"
   },
   "dependencies": {
     "aws-sdk": "^2.280.1",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
-    "graphql": "^0.13.2"
+    "graphql": "^0.13.2",
+    "nodemon": "^1.18.3"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

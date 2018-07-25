@@ -2,7 +2,7 @@ import express from 'express'
 import graphqlHTTP from 'express-graphql'
 import Aws from 'aws-sdk'
 import buildSchema from './build-schema'
-import { readJsonFile } from '../../infrastructure/lib/file/read-local-file'
+import { readTextFile } from '../../infrastructure/lib/file/read-local-file'
 import { filenameRelativeToProjectRoot } from '../../infrastructure/lib/file/dir-name'
 
 const initialiseAws = () => {
@@ -21,7 +21,7 @@ export default async () => {
   const port = process.env.PORT || 3000
   const server = express()
 
-  const schema = await readJsonFile(
+  const schema = await readTextFile(
     filenameRelativeToProjectRoot('./graphapi/graphql-schema.sdl'),
   )
 
@@ -34,10 +34,7 @@ export default async () => {
         TableName: 'Invoices',
       })
       .promise()
-      .then(data => {
-        console.log('in themn', data)
-        return data.Item
-      })
+      .then(data => data.Item)
 
   const root = {
     invoice: getInvoice,
