@@ -162,7 +162,7 @@
       "Type": "AWS::AppSync::GraphQLSchema",
       "Properties": {
         "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
-        "Definition": "type Invoice {\n id: ID!\n date: String\n }\n type Root {\n invoice(id: ID!): Invoice\n }\n schema {\n query: Root\n }\n"
+        "Definition": "<TemplatedField>"
       }
     },
     "AppSyncGetInvoiceQueryResolver": {

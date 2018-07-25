@@ -1,7 +1,7 @@
 import init from 'lib/schema'
 
 const executeasync = async () => {
-  init()
+  await init()
 }
 
 executeasync().catch(e => {

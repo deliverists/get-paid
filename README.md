@@ -15,6 +15,7 @@
 ## todo
 
  * rename read-local-file to some sort of filesystem helper
+ * create a shared package for read-local-file so we aren't importing between packages
 
  * get schema shared between local and cf
  * get resolvers shared between local and cf

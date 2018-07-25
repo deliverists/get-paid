@@ -2,6 +2,8 @@ import express from 'express'
 import graphqlHTTP from 'express-graphql'
 import Aws from 'aws-sdk'
 import buildSchema from './build-schema'
+import { readJsonFile } from '../../infrastructure/lib/file/read-local-file'
+import { filenameRelativeToProjectRoot } from '../../infrastructure/lib/file/dir-name'
 
 const initialiseAws = () => {
   Aws.config.update({ region: 'us-east-1' })
@@ -12,24 +14,16 @@ const initialiseDyanmo = () =>
     endpoint: new Aws.Endpoint('http://localhost:8000'),
   })
 
-export default () => {
+export default async () => {
   initialiseAws()
   const dynamo = initialiseDyanmo()
 
   const port = process.env.PORT || 3000
   const server = express()
 
-  const schema = `
-  type Invoice {
-    id: ID!
-    date: String
-  }
-  type Root {
-    invoice(id: ID!): Invoice
-  }
-  schema {
-    query: Root
-  }`
+  const schema = await readJsonFile(
+    filenameRelativeToProjectRoot('./graphapi/graphql-schema.sdl'),
+  )
 
   const getInvoice = params =>
     dynamo

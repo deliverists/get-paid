@@ -3,9 +3,11 @@ import getConfig from 'lib/config'
 import {
   getStream,
   readJsonFile,
+  readTextFile,
   writeObjectToJsonFile,
   deleteFile,
 } from 'lib/file/read-local-file'
+import { filenameRelativeToInfrastructure } from 'lib/file/dir-name'
 import tables from '../../../dynamo/lib/create/tables'
 
 let config
@@ -50,7 +52,9 @@ const created = async () => {
 const generateCloudFormationTemplates = async () => {
   console.log('generating cloudformation template...')
   const templateJson = await readJsonFile(
-    `template.${config.templatesSourceLocation}/${config.stackTemplateName}`,
+    filenameRelativeToInfrastructure(
+      `template.${config.templatesSourceLocation}/${config.stackTemplateName}`,
+    ),
     'utf8',
   )
   tables.forEach(table => {
@@ -59,8 +63,13 @@ const generateCloudFormationTemplates = async () => {
       Properties: table.Properties,
     }
   })
+  templateJson.Resources.AppSyncSchema.Properties.Definition = await readTextFile(
+    filenameRelativeToInfrastructure(config.graphqlSchemaLocation),
+  )
   await writeObjectToJsonFile(
-    `${config.templatesSourceLocation}/${config.stackTemplateName}`,
+    filenameRelativeToInfrastructure(
+      `${config.templatesSourceLocation}/${config.stackTemplateName}`,
+    ),
     templateJson,
   )
 }
@@ -71,16 +80,24 @@ const syncTemplates = async () => {
     await s3
       .upload({
         Key: config.stackTemplateName,
-        Body: getStream(`templates/${config.stackTemplateName}`),
+        Body: getStream(
+          filenameRelativeToInfrastructure(`templates/${config.stackTemplateName}`),
+        ),
       })
       .promise(),
   )
-  deleteFile(`templates/${config.stackTemplateName}`)
+  deleteFile(
+    filenameRelativeToInfrastructure(`templates/${config.stackTemplateName}`),
+  )
   console.log(
     await s3
       .upload({
         Key: config.graphqlSchemaLocation,
-        Body: getStream(`templates/${config.graphqlSchemaLocation}`),
+        Body: getStream(
+          filenameRelativeToInfrastructure(
+            `templates/${config.graphqlSchemaLocation}`,
+          ),
+        ),
         ACL: 'public-read',
       })
       .promise(),
