@@ -25,6 +25,8 @@
 
 ## todo
 
+ * get some OUTPUTs from the cf template - i.e. appsync app id - then you can chain the command: `aws appsync get-graphql-api --api-id zu62e235bzg45j4iw7bxhvytyq --region us-east-1` to the script to get the graphql endpoint
+
  * rename read-local-file to some sort of filesystem helper
  * create a shared package for read-local-file so we aren't importing between packages
 
@@ -44,3 +46,5 @@
 ## links
 
  * https://read.acloud.guru/deploy-an-aws-appsync-graphql-api-with-amazon-cloudformation-9a783fdd8491
+ * good overview to the be tech here: https://code.tutsplus.com/tutorials/code-an-app-with-graphql-and-react-native--cms-30511
+ * for creating the websit3e version of the app: https://docs.aws.amazon.com/appsync/latest/devguide/building-a-client-app-react.html

@@ -1,21 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ApolloProvider } from 'react-apollo';
+import { createStackNavigator } from 'react-navigation';
+import AWSAppSyncClient from 'aws-appsync';
+import { Rehydrated } from 'aws-appsync-react';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>oh hai there universe</Text>
-      </View>
-    );
-  }
-}
+import { navigatorConfig } from './lib/screens';
+import appsyncConfig from './lib/AppSync';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const appsyncClient = new AWSAppSyncClient({
+  url: appsyncConfig.graphqlEndpoint,
+  region: appsyncConfig.region,
+  auth: { type: appsyncConfig.authenticationType, apiKey: appsyncConfig.apiKey }
 });
+
+export default () => {
+  const Navigator = createStackNavigator(navigatorConfig);
+
+  return (
+  <ApolloProvider client={appsyncClient}>
+    <Rehydrated>
+      <Navigator/>
+    </Rehydrated>
+  </ApolloProvider>
+  );
+}
