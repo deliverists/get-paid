@@ -1,0 +1,11 @@
+{
+  "graphqlApi": {
+    "name": "get_paid_api",
+    "apiId": "zu62e235bzg45j4iw7bxhvytyq",
+    "authenticationType": "API_KEY",
+    "arn": "arn:aws:appsync:us-east-1:277625601220:apis/zu62e235bzg45j4iw7bxhvytyq",
+    "uris": {
+      "GRAPHQL": "https://w5ao7vl6hreord7x7ledo7cq5i.appsync-api.us-east-1.amazonaws.com/graphql"
+    }
+  }
+}

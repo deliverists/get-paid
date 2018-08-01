@@ -1,6 +1,14 @@
 import Aws from 'aws-sdk'
 import getConfig from 'lib/config'
-import { getStream } from 'lib/file/read-local-file'
+import {
+  getStream,
+  readJsonFile,
+  readTextFile,
+  writeObjectToJsonFile,
+  deleteFile,
+} from 'lib/file/read-local-file'
+import { filenameRelativeToInfrastructure } from 'lib/file/dir-name'
+import tables from '../../../dynamo/lib/create/tables'
 
 let config
 let s3
@@ -41,21 +49,65 @@ const created = async () => {
   return list.StackSummaries.some(stack => stack.StackName === config.stackName)
 }
 
+const generateCloudFormationTemplates = async () => {
+  console.log('generating cloudformation template...')
+  const templateJson = await readJsonFile(
+    filenameRelativeToInfrastructure(
+      `template.${config.templatesSourceLocation}/${config.stackTemplateName}`,
+    ),
+    'utf8',
+  )
+  tables.forEach(table => {
+    templateJson.Resources[`${table.TableName}DynamoTable`] = {
+      Type: 'AWS::DynamoDB::Table',
+      Properties: table.Properties,
+    }
+  })
+  templateJson.Resources.AppSyncSchema.Properties.Definition = await readTextFile(
+    filenameRelativeToInfrastructure(config.graphqlSchemaLocation),
+  )
+  templateJson.Resources.AppSyncGetInvoiceQueryResolver.Properties.RequestMappingTemplate = await readTextFile(
+    filenameRelativeToInfrastructure(
+      'templates/invoices.requestmappingtemplate.vtl',
+    ),
+  )
+  templateJson.Resources.AppSyncGetInvoiceQueryResolver.Properties.ResponseMappingTemplate = await readTextFile(
+    filenameRelativeToInfrastructure(
+      'templates/invoices.responsemappingtemplate.vtl',
+    ),
+  )
+  await writeObjectToJsonFile(
+    filenameRelativeToInfrastructure(
+      `${config.templatesSourceLocation}/${config.stackTemplateName}`,
+    ),
+    templateJson,
+  )
+}
+
 const syncTemplates = async () => {
   console.log('syncing templates...')
   console.log(
     await s3
       .upload({
         Key: config.stackTemplateName,
-        Body: getStream(`templates/${config.stackTemplateName}`),
+        Body: getStream(
+          filenameRelativeToInfrastructure(`templates/${config.stackTemplateName}`),
+        ),
       })
       .promise(),
+  )
+  deleteFile(
+    filenameRelativeToInfrastructure(`templates/${config.stackTemplateName}`),
   )
   console.log(
     await s3
       .upload({
         Key: config.graphqlSchemaLocation,
-        Body: getStream(`templates/${config.graphqlSchemaLocation}`),
+        Body: getStream(
+          filenameRelativeToInfrastructure(
+            `templates/${config.graphqlSchemaLocation}`,
+          ),
+        ),
         ACL: 'public-read',
       })
       .promise(),
@@ -212,6 +264,7 @@ const update = async () => {
 const createOrUpdate = async () => {
   console.log('## create or update stack ##')
   await init()
+  await generateCloudFormationTemplates()
   await syncTemplates()
   if (await created()) await update()
   else await create()

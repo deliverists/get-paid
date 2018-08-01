@@ -6,7 +6,7 @@
   "templatesSourceLocation": "./templates",
   "contentBucketName": "ContentBucket",
   "contentSourceLocation": "../dist/_site",
-  "graphqlSchemaLocation": "graphql-schema.sdl",
+  "graphqlSchemaLocation": "../graphapi/graphql-schema.sdl",
   "distributionName": "WebsiteDistribution",
   "lambdaName": "get-paid-origin-request-${BRANCH_NAME}",
   "lambdaServiceRole": "arn:aws:iam::277625601220:role/service-role/fdsa",

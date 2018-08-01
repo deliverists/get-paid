@@ -1,0 +1,10 @@
+type Invoice {
+  id: ID!
+  date: String
+}
+type Root {
+  invoice(id: ID!): Invoice
+}
+schema {
+  query: Root
+}
