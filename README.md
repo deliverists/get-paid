@@ -1,5 +1,10 @@
 # get-paid
 
+Dynamodb local:
+
+ * https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html
+ * `docker run -p 8000:8000 dwmkerr/dynamodb`
+
 ## todo
 
  * test schema sdl file uploaded to s3 (along with cf template)
