@@ -8,7 +8,7 @@ const screen = props => {
   }
   return (
     <View style={styles.container}>
-      <Button title="press" onPress={clicked} />
+      <Button title="clickit2" onPress={clicked} />
     </View>
   )
 }

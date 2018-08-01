@@ -3,28 +3,25 @@ import { StyleSheet, Text, View } from 'react-native';
 import { compose } from 'react-apollo';
 import * as GraphQL from '../graphql';
 
+let log = null;
+
 const screen = props => {
-  const thingy = JSON.stringify(props);
-  const thingyLog = <Text>{thingy}</Text>
+  const loading = <Text>loading...</Text>
   let invoice
   if (props.invoice) {
-     invoice = (
+    invoice = (
       <View>
-        <Text>invoice:</Text>
+        <Text>id:</Text>
         <Text>{props.invoice.id}</Text>
         <Text>date:</Text>
         <Text>{props.invoice.date}</Text>
       </View>
     )
   }
-
-  const loading = <Text>loading...</Text>
-      // <Text>{thingy}</Text>
-  // {!props.loading && invoice}
   return (
     <View style={styles.container}>
+      {!props.loading && props.invoice && invoice}
       {props.loading && loading}
-      {!props.loading && invoice}
     </View>
   )
 }
