@@ -30,6 +30,14 @@ Dynamodb local:
 
 ## todo
 
+ * create a shared modules folder for the react-site and the mobile project for components/ appsync connections
+ * move the website to metalsmith
+ * standardise all node projects to the same setup/lint/pretty etc.
+ * choose react-navigation or react-router for the shared routing mechanisms
+ * how does the state get stored into the react-navigation props with react-apollo? how would we do something similar with react-router
+ * why does the local appsync client work against the local graph api in the react-site but not in the mobile app? - is it because it can't see localhost?
+ * where is the appsync error handling - why can't I see connection/auth errors on the appsync client?
+
  * get some OUTPUTs from the cf template - i.e. appsync app id - then you can chain the command: `aws appsync get-graphql-api --api-id zu62e235bzg45j4iw7bxhvytyq --region us-east-1` to the script to get the graphql endpoint
 
  * rename read-local-file to some sort of filesystem helper
