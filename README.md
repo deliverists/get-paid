@@ -30,6 +30,7 @@ Dynamodb local:
 
 ## todo
 
+ * setup the dynamo script to auto kill the right container before starting it
  * create a shared modules folder for the react-site and the mobile project for components/ appsync connections
  * move the website to metalsmith
  * standardise all node projects to the same setup/lint/pretty etc.
