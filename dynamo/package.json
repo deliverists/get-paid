@@ -8,7 +8,9 @@
   "private": true,
   "scripts": {
     "setup": "ln -fs ../lib node_modules",
-    "start": "yarn setup && node --experimental-modules index.mjs"
+    "server": "docker run -p 8000:8000 dwmkerr/dynamodb",
+    "prestart": "yarn && yarn setup",
+    "start": "yarn server & node --experimental-modules index.mjs"
   },
   "dependencies": {
     "aws-sdk": "^2.254.1"
