@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import graphqlHTTP from 'express-graphql'
 import Aws from 'aws-sdk'
 import buildSchema from './build-schema'
@@ -39,6 +40,8 @@ export default async () => {
   const root = {
     invoice: getInvoice,
   }
+
+  server.use(cors())
 
   server.get(
     '/graphql',

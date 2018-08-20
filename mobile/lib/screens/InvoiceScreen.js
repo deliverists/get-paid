@@ -26,6 +26,17 @@ const screen = props => {
   )
 }
 
+const render = props => {
+  const { error } = this.props;
+
+  if (error) {
+      console.log(error.networkError.response && JSON.parse(error.networkError.response._bodyText).message);
+      return <Text>{error.message}</Text>
+  }
+
+  return screen(props)
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

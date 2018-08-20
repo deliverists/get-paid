@@ -11,10 +11,9 @@ query GetInvoice($id:ID!) {
 export const operations = {
      GetInvoice: graphql(GetInvoice, {
         options: props => {
-          console.log('NICK', props);
             return {
                 fetchPolicy: 'network-only',
-                variables: { id: props.navigation.state.params.id }
+                variables: { id: '123' }
             };
         },
         props: ({ data }) => {
@@ -22,3 +21,4 @@ export const operations = {
         }
     }),
 };
+
