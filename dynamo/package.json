@@ -8,10 +8,11 @@
   "private": true,
   "scripts": {
     "setup": "ln -fs ../lib node_modules",
-    "server:stop": "./stop-dynamo",
-    "server:start": "./start-dynamo",
-    "prestart": "yarn && yarn setup && yarn server:stop",
-    "start": "yarn server:start && node --experimental-modules index.mjs"
+    "stop": "docker stop get-paid-dynamodb || true",
+    "server:start": "docker run -p 8000:8000 --rm --name=get-paid-dynamodb dwmkerr/dynamodb &",
+    "server:restart": "yarn stop && yarn server:start",
+    "prestart": "yarn && yarn setup && yarn server:restart",
+    "start": "node --experimental-modules index.mjs"
   },
   "dependencies": {
     "aws-sdk": "^2.254.1"

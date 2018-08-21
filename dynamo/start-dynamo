@@ -1,3 +1,0 @@
-#!/bin/sh
-set -e
-docker run -p 8000:8000 --rm --name=get-paid-dynamodb dwmkerr/dynamodb &

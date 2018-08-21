@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+cd dynamo
+yarn stop
+cd ..
+
+cd graphapi
+yarn stop
+cd ..
+

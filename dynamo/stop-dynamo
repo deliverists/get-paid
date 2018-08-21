@@ -1,4 +1,0 @@
-#!/bin/sh
-set +e
-docker stop get-paid-dynamodb 2> /dev/null
-exit 0

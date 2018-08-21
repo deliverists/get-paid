@@ -8,7 +8,9 @@
   "private": true,
   "scripts": {
     "setup": "ln -fs ../lib node_modules",
-    "start": "yarn setup && nodemon --experimental-modules index.mjs"
+    "stop": "ps | grep graphapi | grep -v grep | cut -d ' ' -f 1 | xargs kill || true",
+    "prestart": "yarn && yarn setup && yarn stop",
+    "start": "nodemon --experimental-modules index.mjs &"
   },
   "dependencies": {
     "aws-sdk": "^2.280.1",
