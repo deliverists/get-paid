@@ -1,11 +1,11 @@
 #!/bin/sh
 set -e
 
-cd dynamo
+cd backend/dynamo
 yarn stop
 cd ..
 
-cd graphapi
+cd backend/graphapi
 yarn stop
 cd ..
 

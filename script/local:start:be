@@ -1,10 +1,10 @@
 #!/bin/sh
 set -e
 
-cd dynamo
+cd backend/dynamo
 yarn start
 cd ..
 
-cd graphapi
+cd backend/graphapi
 yarn start
 cd ..
