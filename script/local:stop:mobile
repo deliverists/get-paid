@@ -2,5 +2,5 @@
 set -e
 
 cd clients/mobile
-yarn start
+yarn stop
 cd ..
