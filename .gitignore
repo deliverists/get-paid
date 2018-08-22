@@ -3,3 +3,4 @@ dist/
 .sass-cache/
 node_modules/
 infrastructure/templates/get-paid.json
+.expo/
