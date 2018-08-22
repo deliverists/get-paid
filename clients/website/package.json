@@ -19,7 +19,8 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "prestart": "yarn",
+    "setup": "ln -fs ../lib node_modules && ln -fs ../../shared node_modules",
+    "prestart": "yarn && yarn setup",
     "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

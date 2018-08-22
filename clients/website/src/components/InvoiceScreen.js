@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'react-apollo';
-import * as GraphQL from '../graphql';
+import operations from 'shared/operations';
 
 const screen = props => {
   const loading = <span>loading...</span>
@@ -24,7 +24,7 @@ const screen = props => {
 }
 
 const connectedScreen = compose(
-  GraphQL.operations.GetInvoice,
+  operations.GetInvoice,
 )(screen);
 
 export default connectedScreen;

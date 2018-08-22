@@ -3,8 +3,8 @@ set -e
 
 cd backend/dynamo
 yarn start
-cd ..
+cd ../..
 
 cd backend/graphapi
 yarn start
-cd ..
+cd ../..

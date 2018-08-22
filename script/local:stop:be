@@ -3,9 +3,9 @@ set -e
 
 cd backend/dynamo
 yarn stop
-cd ..
+cd ../..
 
 cd backend/graphapi
 yarn stop
-cd ..
+cd ../..
 

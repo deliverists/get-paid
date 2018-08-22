@@ -3,4 +3,4 @@ set -e
 
 cd clients/website
 yarn start
-cd ..
+cd ../..
