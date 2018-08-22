@@ -1,32 +1,27 @@
 # get-paid
 
-Dynamodb local:
+## pre-reqs:
 
- * https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html
- * `docker run -p 8000:8000 dwmkerr/dynamodb`
-
-## local mobile
-
-### pre-reqs:
-
- * setup local machine using steps here: https://docs.expo.io/versions/v28.0.0/introduction/installation.html
-
-### running in dev mode with watcher on android device:
-
- * in 1 terminal: `exp start --lan`
- * in another: `exp android`
-
-## local be
-
-### pre-reqs:
-
+ * yarn
+ * aws account
  * docker client
+ * virtualbox
+ * expo and genymotion
+ * run genymotion and start up an android virtual device (TODO: automate this on the cli using gmtool as part of Genymotion 2.5.0 - paid license)
 
-### installation:
+## running locally:
 
- * `run-local-be` will start up the docker container
- * you can then browse to the dynamodb shell here: `http://localhost:8000/shell/`
- * or you can interact with the dynamodb with the awscli like: `aws dynamodb <command> --endpoint-url http://localhost:8000`
+ * `. script/init` will initialise your terminal for the project
+ * `local:start:be` will start up dynamodb (and create tables/data) and graphql server
+ * `local:start:site` will start up the react website
+ * `local:start:mobile` will start up the android app in the emulator
+
+### interacting with local services:
+
+ * browse to dynamodb shell: `http://localhost:8000/shell/`
+ * interact with dynamodb with the awscli: `aws dynamodb <command> --endpoint-url http://localhost:8000`
+ * browse to graphql: `http://localhost:3000/graphql`
+ * browse to the react website: `http://localhost:3001/`
 
 ## todo
 
@@ -61,3 +56,4 @@ Dynamodb local:
  * https://read.acloud.guru/deploy-an-aws-appsync-graphql-api-with-amazon-cloudformation-9a783fdd8491
  * good overview to the be tech here: https://code.tutsplus.com/tutorials/code-an-app-with-graphql-and-react-native--cms-30511
  * for creating the websit3e version of the app: https://docs.aws.amazon.com/appsync/latest/devguide/building-a-client-app-react.html
+ * setup local machine using steps here: https://docs.expo.io/versions/v28.0.0/introduction/installation.html
