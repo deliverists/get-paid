@@ -25,6 +25,14 @@
 
 ## todo
 
+ * Choose web/native sharing mechanism:
+  https://github.com/vincentriemer/react-native-dom
+  https://github.com/joefazz/react-native-web-starter
+  https://microsoft.github.io/reactxp/
+  https://pickering.org/using-react-native-react-native-web-and-react-navigation-in-a-single-project-cfd4bcca16d0
+  https://medium.com/@yannickdot/write-once-run-anywhere-with-create-react-native-app-and-react-native-web-ad40db63eed0
+  https://github.com/viewstools/yarn-workspaces-cra-crna
+
  * create a shared modules folder for the react-site and the mobile project for components/ appsync connections
  * move the website to metalsmith
  * standardise all node projects to the same setup/lint/pretty etc.
@@ -57,3 +65,4 @@
  * good overview to the be tech here: https://code.tutsplus.com/tutorials/code-an-app-with-graphql-and-react-native--cms-30511
  * for creating the websit3e version of the app: https://docs.aws.amazon.com/appsync/latest/devguide/building-a-client-app-react.html
  * setup local machine using steps here: https://docs.expo.io/versions/v28.0.0/introduction/installation.html
+ * https://github.com/viewstools/yarn-workspaces-cra-crna
