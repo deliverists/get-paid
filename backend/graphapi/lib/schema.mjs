@@ -3,8 +3,7 @@ import cors from 'cors'
 import graphqlHTTP from 'express-graphql'
 import Aws from 'aws-sdk'
 import buildSchema from './build-schema'
-import { readTextFile } from '../../infrastructure/lib/file/read-local-file'
-import { filenameRelativeToProjectRoot } from '../../infrastructure/lib/file/dir-name'
+import { readTextFile } from '../../../infrastructure/lib/file/read-local-file'
 
 const initialiseAws = () => {
   Aws.config.update({ region: 'us-east-1' })
@@ -22,9 +21,7 @@ export default async () => {
   const port = process.env.PORT || 3000
   const server = express()
 
-  const schema = await readTextFile(
-    filenameRelativeToProjectRoot('./graphapi/graphql-schema.sdl'),
-  )
+  const schema = await readTextFile('../graphapi/graphql-schema.sdl')
 
   const getInvoice = params =>
     dynamo

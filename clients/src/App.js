@@ -26,6 +26,7 @@ export default class App extends React.Component {
                 <Link to={'/one'} component={TouchableOpacity} >
                     <Text style={styles.appIntro}>
                         To get started, edit src/App.js and save to reload.
+                          Hello worlds
                     </Text>
                 </Link>
             </View>

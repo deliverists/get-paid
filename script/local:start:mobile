@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
 
-cd clients/mobile
-yarn start
+cd clients
+yarn android
 cd ../..

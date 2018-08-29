@@ -1,23 +1,16 @@
 {
-    "name": "react-native-web-starter",
-    "version": "0.1.0",
+    "name": "get-paid-frontends",
+    "version": "0.0.1",
+    "repository": "https://github.com/nickmeldrum/get-paid.git",
+    "author": "Nick Meldrum <nick@nickmeldrum.com>",
+    "license": "UNLICENSED",
     "private": true,
-    "dependencies": {
-        "expo": "^27.0.2",
-        "react": "16.3.1",
-        "react-art": "^16.3.2",
-        "react-dom": "^16.3.1",
-        "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
-        "react-native-web": "^0.8.2",
-        "react-router": "^4.2.0",
-        "react-router-dom": "^4.2.2",
-        "react-router-native": "^4.2.0",
-        "react-router-navigation": "^1.0.0-rc.4",
-        "react-scripts": "1.1.4"
-    },
     "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
     "scripts": {
-        "web": "react-scripts start",
+        "preweb": "yarn",
+        "preandroid": "yarn",
+
+        "web": "PORT=3001 react-scripts start",
         "build-web": "react-scripts build",
         "test-web": "react-scripts test --env=jsdom",
         "eject-web": "react-scripts eject",
@@ -30,6 +23,19 @@
     },
     "jest": {
         "preset": "jest-expo"
+    },
+    "dependencies": {
+        "expo": "^27.0.2",
+        "react": "16.3.1",
+        "react-art": "^16.3.2",
+        "react-dom": "^16.3.1",
+        "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
+        "react-native-web": "^0.8.2",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "react-router-native": "^4.2.0",
+        "react-router-navigation": "^1.0.0-rc.4",
+        "react-scripts": "1.1.4"
     },
     "devDependencies": {
         "babel-plugin-react-native-web": "^0.8.2",
