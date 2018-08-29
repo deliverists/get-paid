@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "setup": "ln -fs ../lib node_modules",
-    "stop": "pkill graphapi || true",
+    "stop": "ps | grep graphapi/node_modules | grep -v grep | awk '{print $1}' | xargs kill",
     "prestart": "yarn && yarn setup && yarn stop",
     "start": "nodemon --experimental-modules index.mjs &"
   },

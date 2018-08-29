@@ -14,7 +14,7 @@ const recreateTable = async (dynamo, table) => {
       TableName: 'Invoices',
       Item: {
         id: { S: '123' },
-        date: { S: 'some date string' },
+        date: { S: 'some snoopy string' },
       },
     })
     .promise()
