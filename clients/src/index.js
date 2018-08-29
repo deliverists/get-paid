@@ -1,11 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from "react-dom"
+import { Rehydrated } from 'aws-appsync-react';
+import { ApolloProvider } from 'react-apollo';
+import api from './api'
 
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(
-    <App />
-    , document.getElementById('root'));
+render((
+  <ApolloProvider client={api.client}>
+    <Rehydrated>
+      <App />
+    </Rehydrated>
+  </ApolloProvider>
+  ),
+  document.getElementById('root')
+);
+
 registerServiceWorker();

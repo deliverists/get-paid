@@ -13,7 +13,7 @@ export default {
     options: props => {
       return {
         fetchPolicy: 'network-only',
-        variables: { id: props.navigation ? props.navigation.state.params.id || '123' }
+        variables: { id: '123' },
       }
     },
     props: ({ data }) => {
