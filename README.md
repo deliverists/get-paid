@@ -68,3 +68,4 @@ eating garbage out of golden plates
  * for creating the websit3e version of the app: https://docs.aws.amazon.com/appsync/latest/devguide/building-a-client-app-react.html
  * setup local machine using steps here: https://docs.expo.io/versions/v28.0.0/introduction/installation.html
  * https://github.com/viewstools/yarn-workspaces-cra-crna
+ * https://medium.com/@jonnykalambay/your-first-hybrid-app-in-15-minutes-react-native-on-the-web-2cc2646051e

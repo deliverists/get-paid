@@ -1,13 +1,9 @@
 import React from "react";
-import { View, Text, Animated, StyleSheet, StatusBar, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Router, Switch, Link, Route } from './Routing';
 import InvoiceScreen from './components/Invoice';
 
 export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     Home = (rotationStyle) => {
         return (
             <View style={{ alignItems: 'center', flex: 3 }}>

@@ -1,25 +1,26 @@
 import React from 'react';
+import { View, Text } from "react-native";
 import { compose } from 'react-apollo';
 import operations from '../api/operations';
 
 const screen = props => {
-  const loading = <span>loading...</span>
+  const loading = <Text>loading...</Text>
   let invoice
   if (props.invoice) {
     invoice = (
-      <div>
-        <span>id:</span>
-        <span>{props.invoice.id}</span>
-        <span>date:</span>
-        <span>{props.invoice.date}</span>
-      </div>
+      <View>
+        <Text>id:</Text>
+        <Text>{props.invoice.id}</Text>
+        <Text>date:</Text>
+        <Text>{props.invoice.date}</Text>
+      </View>
     )
   }
   return (
-    <div>
+    <View>
       {!props.loading && props.invoice && invoice}
       {props.loading && loading}
-    </div>
+    </View>
   )
 }
 
