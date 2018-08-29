@@ -1,5 +1,7 @@
 # get-paid
 
+eating garbage out of golden plates
+
 ## pre-reqs:
 
  * yarn
