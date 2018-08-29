@@ -10,6 +10,7 @@ eating garbage out of golden plates
  * virtualbox
  * expo and genymotion
  * run genymotion and start up an android virtual device (TODO: automate this on the cli using gmtool as part of Genymotion 2.5.0 - paid license)
+ * `adb reverse tcp:3000 tcp:3000` to open up the localhost 3000 port to the android emulator
 
 ## running locally:
 

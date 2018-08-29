@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 
+adb reverse tcp:3000 tcp:3000
 cd clients
 yarn android
 cd ../..
