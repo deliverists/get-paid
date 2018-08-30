@@ -1,24 +1,17 @@
-import tables from './tables'
+import tables from '../../templates'
 
-const recreateTable = async (dynamo, table) => {
-  const name = { TableName: table.TableName }
+const recreateTable = async (dynamo, { TableName, Properties, Data }) => {
+  const name = { TableName }
   const list = await dynamo.listTables().promise()
-  if (list.TableNames.includes(table.TableName))
-    await dynamo.deleteTable(name).promise()
+  if (list.TableNames.includes(TableName)) await dynamo.deleteTable(name).promise()
   const info = await dynamo
-    .createTable(Object.assign({}, table.Properties, name))
+    .createTable(Object.assign({}, Properties, name))
     .promise()
   console.log(info)
-  const itemInfo = await dynamo
-    .putItem({
-      TableName: 'Invoices',
-      Item: {
-        id: { S: '123' },
-        date: { S: 'some snoopy string' },
-      },
-    })
-    .promise()
-  console.log(itemInfo)
+  Data.forEach(async Item => {
+    const itemInfo = await dynamo.putItem({ TableName, Item }).promise()
+    console.log(itemInfo)
+  })
 }
 
 export default async dynamo => {
