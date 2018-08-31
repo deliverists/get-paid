@@ -4,6 +4,7 @@ type Invoice {
 }
 type Root {
   invoice(id: ID!): Invoice
+  something(id: string): string
 }
 schema {
   query: Root

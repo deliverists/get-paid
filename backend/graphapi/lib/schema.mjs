@@ -36,6 +36,7 @@ export default async () => {
 
   const rootValue = {
     invoice,
+    something: params => `oh hai${params.id}`,
   }
 
   server.use(cors())
