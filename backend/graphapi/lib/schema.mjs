@@ -21,9 +21,9 @@ export default async () => {
   const port = process.env.PORT || 3000
   const server = express()
 
-  const schema = await readTextFile('./templates/schema.graphql')
+  const schema = buildSchema(await readTextFile('./templates/schema.graphql'))
 
-  const getInvoice = params =>
+  const invoice = params =>
     dynamo
       .get({
         Key: {
@@ -34,8 +34,8 @@ export default async () => {
       .promise()
       .then(data => data.Item)
 
-  const root = {
-    invoice: getInvoice,
+  const rootValue = {
+    invoice,
   }
 
   server.use(cors())
@@ -43,8 +43,8 @@ export default async () => {
   server.get(
     '/graphql',
     graphqlHTTP({
-      schema: buildSchema(schema),
-      rootValue: root,
+      schema,
+      rootValue,
       graphiql: true,
     }),
   )
@@ -52,8 +52,8 @@ export default async () => {
   server.post(
     '/graphql',
     graphqlHTTP({
-      schema: buildSchema(schema),
-      rootValue: root,
+      schema,
+      rootValue,
       graphiql: false,
     }),
   )
