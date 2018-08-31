@@ -8,7 +8,7 @@ import {
   deleteFile,
 } from 'lib/file/read-local-file'
 import { filenameRelativeToInfrastructure } from 'lib/file/dir-name'
-import tables from '../../../dynamo/lib/create/tables'
+import tables from '../../../backend/dynamo/templates'
 
 let config
 let s3
@@ -62,7 +62,17 @@ const generateCloudFormationTemplates = async () => {
       Type: 'AWS::DynamoDB::Table',
       Properties: table.Properties,
     }
+
+    templateJson.Resources.AppSyncDynamoDBPolicy.Properties.PolicyDocument.Statement[0].Resource.push(
+      {
+        'Fn::Join': [
+          '',
+          [{ 'Fn::GetAtt': [`${table.TableName}DynamoTable`, 'Arn'] }, '*'],
+        ],
+      },
+    )
   })
+
   templateJson.Resources.AppSyncSchema.Properties.Definition = await readTextFile(
     filenameRelativeToInfrastructure(config.graphqlSchemaLocation),
   )

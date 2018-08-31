@@ -138,7 +138,7 @@
                 "dynamodb:BatchGetItem",
                 "dynamodb:BatchWriteItem"
               ],
-              "Resource": { "Fn::Join" : ["", [{"Fn::GetAtt": ["InvoicesDynamoTable", "Arn"]}, "*"]]}
+              "Resource": []
             }
           ]
         }
