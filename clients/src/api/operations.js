@@ -6,7 +6,8 @@ query GetInvoice($id:ID!) {
   invoice(id:$id) {
     id, date
   }
-}`
+}
+`
 
 export default {
   GetInvoice: graphql(GetInvoice, {

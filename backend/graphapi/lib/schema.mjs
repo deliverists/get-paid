@@ -21,7 +21,7 @@ export default async () => {
   const port = process.env.PORT || 3000
   const server = express()
 
-  const schema = await readTextFile('../graphapi/graphql-schema.sdl')
+  const schema = await readTextFile('./templates/schema.graphql')
 
   const getInvoice = params =>
     dynamo

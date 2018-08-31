@@ -8,4 +8,10 @@ export default {
       WriteCapacityUnits: 2,
     },
   },
+  Data: [
+    {
+      id: { S: '123' },
+      date: { S: 'some weird string' },
+    },
+  ],
 }
