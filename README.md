@@ -69,3 +69,4 @@ eating garbage out of golden plates
  * setup local machine using steps here: https://docs.expo.io/versions/v28.0.0/introduction/installation.html
  * https://github.com/viewstools/yarn-workspaces-cra-crna
  * https://medium.com/@jonnykalambay/your-first-hybrid-app-in-15-minutes-react-native-on-the-web-2cc2646051e
+ * good overview of dynamodb here: https://dev.to/mushketyk/should-you-use-dynamodb-5m5
