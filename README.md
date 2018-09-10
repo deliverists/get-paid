@@ -70,3 +70,7 @@ eating garbage out of golden plates
  * https://github.com/viewstools/yarn-workspaces-cra-crna
  * https://medium.com/@jonnykalambay/your-first-hybrid-app-in-15-minutes-react-native-on-the-web-2cc2646051e
  * good overview of dynamodb here: https://dev.to/mushketyk/should-you-use-dynamodb-5m5
+ * https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-lambda-resolvers.html
+ * https://itnext.io/creating-a-blueprint-for-microservices-and-event-sourcing-on-aws-291d4d5a5817
+ * https://medium.com/@mhemphill.au/event-sourcing-with-dynamo-4d692cd56649
+ * https://martinfowler.com/eaaDev/EventSourcing.html

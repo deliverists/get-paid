@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-cd backend/dynamo
+cd backend/postgres
 yarn start
 cd ../..
 
