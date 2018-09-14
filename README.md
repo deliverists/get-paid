@@ -13,6 +13,7 @@ eating garbage out of golden plates
  * expo and genymotion
  * run genymotion and start up an android virtual device (TODO: automate this on the cli using gmtool as part of Genymotion 2.5.0 - paid license)
  * `adb reverse tcp:3000 tcp:3000` to open up the localhost 3000 port to the android emulator
+ * for lambda local: python 2.7, pip and: `pip install --user aws-sam-cli`
 
 ## running locally:
 
@@ -74,3 +75,4 @@ eating garbage out of golden plates
  * https://itnext.io/creating-a-blueprint-for-microservices-and-event-sourcing-on-aws-291d4d5a5817
  * https://medium.com/@mhemphill.au/event-sourcing-with-dynamo-4d692cd56649
  * https://martinfowler.com/eaaDev/EventSourcing.html
+ * https://github.com/awslabs/aws-sam-cli/blob/develop/docs/installation.rst

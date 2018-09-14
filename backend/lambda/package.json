@@ -1,0 +1,23 @@
+{
+  "name": "aws-lambda-local",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/nickmeldrum/get-paid.git",
+  "author": "Nick Meldrum <nick@nickmeldrum.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "invoke:helloworld": "cd ./functions/helloworld && sam local invoke -e event.json HelloWorld",
+    "start:helloworld": "cd ./functions/helloworld && sam local start-api"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "prettier": "^1.11.1"
+  }
+}
