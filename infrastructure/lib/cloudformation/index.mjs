@@ -7,7 +7,10 @@ import {
   writeObjectToJsonFile,
   deleteFile,
 } from 'lib/file/read-local-file'
-import { filenameRelativeToInfrastructure } from 'lib/file/dir-name'
+import {
+  filenameRelativeToInfrastructure,
+  filenameRelativeToProjectRoot,
+} from 'lib/file/dir-name'
 import tables from '../../../backend/dynamo/templates'
 
 let config
@@ -53,7 +56,7 @@ const generateCloudFormationTemplates = async () => {
   console.log('generating cloudformation template...')
   const templateJson = await readJsonFile(
     filenameRelativeToInfrastructure(
-      `template.${config.templatesSourceLocation}/${config.stackTemplateName}`,
+      `${config.templatesSourceLocation}/template.${config.stackTemplateName}`,
     ),
     'utf8',
   )
@@ -74,7 +77,7 @@ const generateCloudFormationTemplates = async () => {
   })
 
   templateJson.Resources.AppSyncSchema.Properties.Definition = await readTextFile(
-    filenameRelativeToInfrastructure(config.graphqlSchemaLocation),
+    filenameRelativeToProjectRoot(config.graphqlSchemaLocation),
   )
   templateJson.Resources.AppSyncGetInvoiceQueryResolver.Properties.RequestMappingTemplate = await readTextFile(
     filenameRelativeToInfrastructure(
@@ -108,19 +111,6 @@ const syncTemplates = async () => {
   )
   deleteFile(
     filenameRelativeToInfrastructure(`templates/${config.stackTemplateName}`),
-  )
-  console.log(
-    await s3
-      .upload({
-        Key: config.graphqlSchemaLocation,
-        Body: getStream(
-          filenameRelativeToInfrastructure(
-            `templates/${config.graphqlSchemaLocation}`,
-          ),
-        ),
-        ACL: 'public-read',
-      })
-      .promise(),
   )
 }
 
@@ -160,12 +150,6 @@ const getParameters = () => [
   {
     ParameterKey: 'BranchName',
     ParameterValue: config.branchName,
-  },
-  {
-    ParameterKey: 'SchemaS3Location',
-    ParameterValue: `https://s3.amazonaws.com/${config.stackTemplateBucket}/${
-      config.graphqlSchemaLocation
-    }`,
   },
 ]
 

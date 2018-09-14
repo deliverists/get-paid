@@ -7,10 +7,6 @@
       "Default" : "testing",
       "AllowedValues" : ["master", "testing"],
       "Description" : "master(prod) or testing branch"
-    },
-    "SchemaS3Location" : {
-      "Type" : "String",
-      "Description" : "s3 location of the graphql schema"
     }
   },
   "Conditions" : {

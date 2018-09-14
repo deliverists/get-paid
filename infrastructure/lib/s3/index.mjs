@@ -2,6 +2,7 @@ import Aws from 'aws-sdk'
 import getConfig from 'lib/config'
 import { getResourceId } from 'lib/cloudformation'
 import { invalidate } from 'lib/cloudfront'
+import { filenameRelativeToProjectRoot } from 'lib/file/dir-name'
 import uploadDir from './upload-dir'
 
 const addRobotsForNonProd = async (config, Bucket) => {
@@ -24,7 +25,7 @@ export default async () => {
   const config = await getConfig()
   const id = await getResourceId(config.contentBucketName)
   console.log('syncing content with s3...')
-  await uploadDir(id, config.contentSourceLocation)
+  await uploadDir(id, filenameRelativeToProjectRoot(config.contentSourceLocation))
   await addRobotsForNonProd(config, id)
   await invalidate()
 }

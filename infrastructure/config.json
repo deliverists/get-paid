@@ -5,10 +5,10 @@
   "stackTemplateName": "get-paid.json",
   "templatesSourceLocation": "./templates",
   "contentBucketName": "ContentBucket",
-  "contentSourceLocation": "../dist/_site",
-  "graphqlSchemaLocation": "../graphapi/graphql-schema.sdl",
+  "contentSourceLocation": "dist/_site",
+  "graphqlSchemaLocation": "backend/graphapi/templates/schema.graphql",
   "distributionName": "WebsiteDistribution",
   "lambdaName": "get-paid-origin-request-${BRANCH_NAME}",
   "lambdaServiceRole": "arn:aws:iam::277625601220:role/service-role/fdsa",
-  "lambdaZipLocation": "../dist/origin-request-function.zip"
+  "lambdaZipLocation": "dist/origin-request-function.zip"
 }

@@ -2,7 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import mime from 'mime-types'
 import Aws from 'aws-sdk'
-import dirname from 'lib/file/dir-name'
 
 let s3
 
@@ -15,7 +14,6 @@ const init = async Bucket => {
 
 export default async (bucket, sourcePath) => {
   await init(bucket)
-  const fullSourcePath = path.join(dirname, '../..', sourcePath)
 
   const walkSync = (currentDirPath, callback) => {
     fs.readdirSync(currentDirPath).forEach(name => {
@@ -29,8 +27,8 @@ export default async (bucket, sourcePath) => {
     })
   }
 
-  walkSync(fullSourcePath, async filePath => {
-    const bucketPath = filePath.substring(fullSourcePath.length + 1)
+  walkSync(sourcePath, async filePath => {
+    const bucketPath = filePath.substring(sourcePath.length + 1)
     const params = {
       Key: bucketPath,
       Body: fs.readFileSync(filePath),
