@@ -1,3 +1,5 @@
+import util from 'util'
+import process from 'child_process'
 import Aws from 'aws-sdk'
 import getConfig from 'lib/config'
 import {
@@ -17,6 +19,14 @@ let config
 let s3
 let cloudformation
 let templateUrl
+let stackFile
+let cfBucket
+const templatesFileGenerator = configProperty =>
+  filenameRelativeToInfrastructure(
+    `${config.templatesSourceLocation}/${config[configProperty]}`,
+  )
+
+const exec = util.promisify(process.exec)
 
 const init = async () => {
   if (s3) return
@@ -25,9 +35,9 @@ const init = async () => {
     params: { Bucket: config.stackTemplateBucket },
   })
   cloudformation = new Aws.CloudFormation()
-  templateUrl = `https://s3.amazonaws.com/${config.stackTemplateBucket}/${
-    config.stackTemplateName
-  }`
+  templateUrl = `${cfBucket}/${config.stackTemplateName}`
+  stackFile = templatesFileGenerator('stackFilename')
+  cfBucket = `https://s3.amazonaws.com/${config.stackTemplateBucket}`
 }
 
 const created = async () => {
@@ -53,20 +63,26 @@ const created = async () => {
 }
 
 const generateCloudFormationTemplates = async () => {
-  console.log('generating cloudformation template...')
-  const templateJson = await readJsonFile(
-    filenameRelativeToInfrastructure(
-      `${config.templatesSourceLocation}/template.${config.stackTemplateName}`,
-    ),
-    'utf8',
+  const templateFile = templatesFileGenerator('stackTemplateName')
+  const unpackagedStackFile = templatesFileGenerator('stackUnpackagedFilename')
+  const graphQlSchema = filenameRelativeToProjectRoot(config.graphqlSchemaLocation)
+  const invoicesRequestMappingTemplate = templatesFileGenerator(
+    'invoices.requestMappingTemplate',
   )
+  const invoicesResponseMappingTemplate = templatesFileGenerator(
+    'invoices.responseMappingTemplate',
+  )
+
+  console.log('generating cloudformation template...')
+  const templateJson = await readJsonFile(templateFile, 'utf8')
+  const resources = templateJson.Resources
   tables.forEach(table => {
-    templateJson.Resources[`${table.TableName}DynamoTable`] = {
+    resources[`${table.TableName}DynamoTable`] = {
       Type: 'AWS::DynamoDB::Table',
       Properties: table.Properties,
     }
 
-    templateJson.Resources.AppSyncDynamoDBPolicy.Properties.PolicyDocument.Statement[0].Resource.push(
+    resources.AppSyncDynamoDBPolicy.Properties.PolicyDocument.Statement[0].Resource.push(
       {
         'Fn::Join': [
           '',
@@ -76,25 +92,24 @@ const generateCloudFormationTemplates = async () => {
     )
   })
 
-  templateJson.Resources.AppSyncSchema.Properties.Definition = await readTextFile(
-    filenameRelativeToProjectRoot(config.graphqlSchemaLocation),
+  resources.AppSyncSchema.Properties.Definition = await readTextFile(graphQlSchema)
+  // todo - make schema s3location now we are packaging our cf template
+  const resolverProperties = resources.AppSyncGetInvoiceQueryResolver.Properties
+  resolverProperties.RequestMappingTemplate = await readTextFile(
+    invoicesRequestMappingTemplate,
   )
-  templateJson.Resources.AppSyncGetInvoiceQueryResolver.Properties.RequestMappingTemplate = await readTextFile(
-    filenameRelativeToInfrastructure(
-      'templates/invoices.requestmappingtemplate.vtl',
-    ),
+  resolverProperties.ResponseMappingTemplate = await readTextFile(
+    invoicesResponseMappingTemplate,
   )
-  templateJson.Resources.AppSyncGetInvoiceQueryResolver.Properties.ResponseMappingTemplate = await readTextFile(
-    filenameRelativeToInfrastructure(
-      'templates/invoices.responsemappingtemplate.vtl',
-    ),
+  await writeObjectToJsonFile(unpackagedStackFile, templateJson)
+
+  console.log('packaging cloudformation resources...')
+  const { stdout, stderr } = await exec(
+    `aws cloudformation package --template-file ${unpackagedStackFile} --s3-bucket ${cfBucket} --output-template-file ${stackFile}`,
   )
-  await writeObjectToJsonFile(
-    filenameRelativeToInfrastructure(
-      `${config.templatesSourceLocation}/${config.stackTemplateName}`,
-    ),
-    templateJson,
-  )
+  if (stdout) console.log('output from package command:', stdout)
+  if (stderr) console.error('error output from package command:', stderr)
+  deleteFile(unpackagedStackFile)
 }
 
 const syncTemplates = async () => {
@@ -103,15 +118,11 @@ const syncTemplates = async () => {
     await s3
       .upload({
         Key: config.stackTemplateName,
-        Body: getStream(
-          filenameRelativeToInfrastructure(`templates/${config.stackTemplateName}`),
-        ),
+        Body: getStream(stackFile),
       })
       .promise(),
   )
-  deleteFile(
-    filenameRelativeToInfrastructure(`templates/${config.stackTemplateName}`),
-  )
+  deleteFile(stackFile)
 }
 
 const validateTemplate = async () => {
