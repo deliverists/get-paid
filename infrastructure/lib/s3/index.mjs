@@ -21,6 +21,39 @@ const addRobotsForNonProd = async (config, Bucket) => {
   }
 }
 
+export const bucketExists = async bucketName => {
+  const s3 = new Aws.S3({ apiVersion: '2006-03-01' })
+  let exists
+  try {
+    await s3.headBucket({ Bucket: bucketName }).promise()
+    exists = true
+  } catch (e) {
+    exists = false
+  }
+  return exists
+}
+
+export const createBucket = async bucketName => {
+  if (await bucketExists(bucketName)) {
+    console.log('bucket already exists...', bucketName)
+  } else {
+    const s3 = new Aws.S3({ apiVersion: '2006-03-01' })
+
+    console.log('creating bucket...', bucketName)
+
+    console.log(
+      await s3
+        .createBucket({
+          Bucket: bucketName,
+          CreateBucketConfiguration: {
+            LocationConstraint: 'us-east-1',
+          },
+        })
+        .promise(),
+    )
+  }
+}
+
 export default async () => {
   const config = await getConfig()
   const id = await getResourceId(config.contentBucketName)

@@ -21,6 +21,7 @@ let cloudformation
 let templateUrl
 let stackFile
 let cfBucket
+
 const templatesFileGenerator = configProperty =>
   filenameRelativeToInfrastructure(
     `${config.templatesSourceLocation}/${config[configProperty]}`,
@@ -37,7 +38,7 @@ const init = async () => {
   cloudformation = new Aws.CloudFormation()
   templateUrl = `${cfBucket}/${config.stackTemplateName}`
   stackFile = templatesFileGenerator('stackFilename')
-  cfBucket = `https://s3.amazonaws.com/${config.stackTemplateBucket}`
+  cfBucket = `https://${config.stackTemplateBucket}.s3.amazonaws.com/`
 }
 
 const created = async () => {
@@ -105,7 +106,9 @@ const generateCloudFormationTemplates = async () => {
 
   console.log('packaging cloudformation resources...')
   const { stdout, stderr } = await exec(
-    `aws cloudformation package --template-file ${unpackagedStackFile} --s3-bucket ${cfBucket} --output-template-file ${stackFile}`,
+    `aws cloudformation package --template-file ${unpackagedStackFile} --s3-bucket ${
+      config.stackTemplateBucket
+    } --output-template-file ${stackFile}`,
   )
   if (stdout) console.log('output from package command:', stdout)
   if (stderr) console.error('error output from package command:', stderr)

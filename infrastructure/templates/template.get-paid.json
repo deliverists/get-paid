@@ -204,7 +204,7 @@
       "Properties" : {
         "Handler": "index.handler",
         "Runtime": "nodejs8.10",
-        "CodeUri": "../backend/lambda/functions/helloworld"
+        "CodeUri": "../../backend/lambda/functions/helloworld"
       }
     },
     "AppSyncHelloWorldDataSource": {
