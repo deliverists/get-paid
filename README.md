@@ -61,6 +61,12 @@ eating garbage out of golden plates
 ## bugs
 
  * definitions3location was giving a 403 despite it looking like it was public-read to me shrug
+   - probably should just have been a bucket name instead of a url - shouldn't have to make them public-read
+   - this is because you have to do a cloudformation package to send the package to s3
+
+
+ * current state of deploy: got half way through trying to configure a lambda deployment from a sam template/transform in the cloudformation package - probably almost done with it, but now moving away from lambda to ecs and containers because lambda -> rds seems problematic re: connection pooling and vpc set up creating slow cold starts.
+
 
 ## links
 
