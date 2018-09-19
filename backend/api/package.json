@@ -8,9 +8,8 @@
   "private": true,
   "scripts": {
     "setup": "ln -fs ../lib node_modules",
-    "stop": "ps | grep get-paid-graphapi | grep -v grep | awk '{print $1}' | xargs kill -9",
-    "prestart": "yarn && yarn setup && yarn stop",
-    "start": "nodemon --experimental-modules index.mjs get-paid-graphapi &"
+    "start:dev": "nodemon --experimental-modules index.mjs &",
+    "start": "node --experimental-modules index.mjs"
   },
   "dependencies": {
     "aws-sdk": "^2.280.1",

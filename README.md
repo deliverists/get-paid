@@ -67,6 +67,8 @@ eating garbage out of golden plates
 
  * current state of deploy: got half way through trying to configure a lambda deployment from a sam template/transform in the cloudformation package - probably almost done with it, but now moving away from lambda to ecs and containers because lambda -> rds seems problematic re: connection pooling and vpc set up creating slow cold starts.
 
+ * https://medium.com/@tomlagier/scaffolding-a-rock-solid-graphql-api-b651c2a36438
+
 
 ## links
 

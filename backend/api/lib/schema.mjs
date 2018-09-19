@@ -2,8 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import graphqlHTTP from 'express-graphql'
 import Aws from 'aws-sdk'
+import { readTextFile } from 'lib/local-file'
 import buildSchema from './build-schema'
-import { readTextFile } from '../../../infrastructure/lib/file/read-local-file'
 
 const initialiseAws = () => {
   Aws.config.update({ region: 'us-east-1' })

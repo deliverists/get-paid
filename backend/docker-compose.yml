@@ -1,0 +1,16 @@
+version: "3"
+services:
+  api:
+    build: ./api
+    image: get-paid-api:latest
+    container_name: get-paid-api
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3000:3000
+    db:
+    build: ./db
+    image: get-paid-db:latest
+    container_name: get-paid-db
+    ports:
+      - 5432:5432
