@@ -1,14 +1,18 @@
 {
   "defaultRegion": "us-east-1",
   "stackName": "get-paid-${BRANCH_NAME}",
-  "stackTemplateBucket": "nickmeldrum-com-cloudformation",
-  "stackTemplateName": "get-paid.json",
+  "stackTemplateBucket": "get-paid-cloudformation",
+  "stackTemplateName": "template.get-paid.json",
+  "stackUnpackagedFilename": "unpackaged.get-paid.json",
+  "stackFilename": "get-paid.json",
   "templatesSourceLocation": "./templates",
   "contentBucketName": "ContentBucket",
-  "contentSourceLocation": "../dist/_site",
-  "graphqlSchemaLocation": "../graphapi/graphql-schema.sdl",
+  "contentSourceLocation": "dist/_site",
+  "graphqlSchemaLocation": "backend/graphapi/templates/schema.graphql",
+  "invoices.requestMappingTemplate": "invoices.requestmappingtemplate.vtl",
+  "invoices.responseMappingTemplate": "invoices.responsemappingtemplate.vtl",
   "distributionName": "WebsiteDistribution",
   "lambdaName": "get-paid-origin-request-${BRANCH_NAME}",
   "lambdaServiceRole": "arn:aws:iam::277625601220:role/service-role/fdsa",
-  "lambdaZipLocation": "../dist/origin-request-function.zip"
+  "lambdaZipLocation": "dist/origin-request-function.zip"
 }

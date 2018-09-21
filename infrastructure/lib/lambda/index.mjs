@@ -1,7 +1,7 @@
 import Aws from 'aws-sdk'
 import getConfig from 'lib/config'
 import { readBinaryFileSync } from 'lib/file/read-local-file'
-import { filenameRelativeToInfrastructure } from 'lib/file/dir-name'
+import { filenameRelativeToProjectRoot } from 'lib/file/dir-name'
 import { updateDistributionWithLambda } from 'lib/cloudfront'
 
 let config
@@ -29,7 +29,7 @@ const create = async () => {
       FunctionName: config.lambdaName,
       Code: {
         ZipFile: readBinaryFileSync(
-          filenameRelativeToInfrastructure(config.lambdaZipLocation),
+          filenameRelativeToProjectRoot(config.lambdaZipLocation),
         ),
       },
       Runtime: 'nodejs6.10',
@@ -53,7 +53,7 @@ const update = async () => {
     .updateFunctionCode({
       FunctionName: config.lambdaName,
       ZipFile: readBinaryFileSync(
-        filenameRelativeToInfrastructure(config.lambdaZipLocation),
+        filenameRelativeToProjectRoot(config.lambdaZipLocation),
       ),
       Publish: true,
     })

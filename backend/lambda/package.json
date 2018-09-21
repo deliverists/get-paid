@@ -1,5 +1,5 @@
 {
-  "name": "aws-graphapi-local",
+  "name": "aws-lambda-local",
   "version": "0.0.1",
   "main": "index.js",
   "repository": "https://github.com/nickmeldrum/get-paid.git",
@@ -7,18 +7,10 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "setup": "ln -fs ../lib node_modules",
-    "stop": "ps | grep get-paid-graphapi | grep -v grep | awk '{print $1}' | xargs kill -9",
-    "prestart": "yarn && yarn setup && yarn stop",
-    "start": "nodemon --experimental-modules index.mjs get-paid-graphapi &"
+    "invoke:helloworld": "cd ./functions/helloworld && sam local invoke -e event.json HelloWorld",
+    "start:helloworld": "cd ./functions/helloworld && sam local start-api"
   },
   "dependencies": {
-    "aws-sdk": "^2.280.1",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "express-graphql": "^0.6.12",
-    "graphql": "^0.13.2",
-    "nodemon": "^1.18.3"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

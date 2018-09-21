@@ -13,6 +13,7 @@ eating garbage out of golden plates
  * expo and genymotion
  * run genymotion and start up an android virtual device (TODO: automate this on the cli using gmtool as part of Genymotion 2.5.0 - paid license)
  * `adb reverse tcp:3000 tcp:3000` to open up the localhost 3000 port to the android emulator
+ * for lambda local: python 2.7, pip and: `pip install --user aws-sam-cli`
 
 ## running locally:
 
@@ -60,6 +61,14 @@ eating garbage out of golden plates
 ## bugs
 
  * definitions3location was giving a 403 despite it looking like it was public-read to me shrug
+   - probably should just have been a bucket name instead of a url - shouldn't have to make them public-read
+   - this is because you have to do a cloudformation package to send the package to s3
+
+
+ * current state of deploy: got half way through trying to configure a lambda deployment from a sam template/transform in the cloudformation package - probably almost done with it, but now moving away from lambda to ecs and containers because lambda -> rds seems problematic re: connection pooling and vpc set up creating slow cold starts.
+
+ * https://medium.com/@tomlagier/scaffolding-a-rock-solid-graphql-api-b651c2a36438
+
 
 ## links
 
@@ -69,3 +78,9 @@ eating garbage out of golden plates
  * setup local machine using steps here: https://docs.expo.io/versions/v28.0.0/introduction/installation.html
  * https://github.com/viewstools/yarn-workspaces-cra-crna
  * https://medium.com/@jonnykalambay/your-first-hybrid-app-in-15-minutes-react-native-on-the-web-2cc2646051e
+ * good overview of dynamodb here: https://dev.to/mushketyk/should-you-use-dynamodb-5m5
+ * https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-lambda-resolvers.html
+ * https://itnext.io/creating-a-blueprint-for-microservices-and-event-sourcing-on-aws-291d4d5a5817
+ * https://medium.com/@mhemphill.au/event-sourcing-with-dynamo-4d692cd56649
+ * https://martinfowler.com/eaaDev/EventSourcing.html
+ * https://github.com/awslabs/aws-sam-cli/blob/develop/docs/installation.rst

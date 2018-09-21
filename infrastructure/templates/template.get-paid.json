@@ -1,5 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
   "Description": "get-paid website",
   "Parameters" : {
     "BranchName" : {
@@ -7,10 +8,6 @@
       "Default" : "testing",
       "AllowedValues" : ["master", "testing"],
       "Description" : "master(prod) or testing branch"
-    },
-    "SchemaS3Location" : {
-      "Type" : "String",
-      "Description" : "s3 location of the graphql schema"
     }
   },
   "Conditions" : {
@@ -165,6 +162,18 @@
         "Definition": "<TemplatedField>"
       }
     },
+    "AppSyncHelloWorldQueryResolver": {
+      "Type": "AWS::AppSync::Resolver",
+      "DependsOn": "AppSyncSchema",
+      "Properties": {
+        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
+        "TypeName": "Root",
+        "FieldName": "helloworld",
+        "DataSourceName": {"Fn::GetAtt": ["AppSyncHelloWorldDataSource", "Name"]},
+        "RequestMappingTemplate": "<TemplatedField>",
+        "ResponseMappingTemplate": "<TemplatedField>"
+      }
+    },
     "AppSyncGetInvoiceQueryResolver": {
       "Type": "AWS::AppSync::Resolver",
       "DependsOn": "AppSyncSchema",
@@ -180,14 +189,32 @@
     "AppSyncInvoicesDataSource": {
       "Type": "AWS::AppSync::DataSource",
       "Properties": {
-        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
-        "Name": "invoices_table",
         "Type": "AMAZON_DYNAMODB",
+        "Name": "invoices_table",
+        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
         "ServiceRoleArn": {"Fn::GetAtt": ["DynamoDBRole", "Arn"]},
         "DynamoDBConfig": {
           "TableName": {"Ref": "InvoicesDynamoTable"},
           "AwsRegion": {"Fn::Sub": "${AWS::Region}"}
         }
+      }
+    },
+    "HelloWorldLambda": {
+      "Type": "AWS::Serverless::Function",
+      "Properties" : {
+        "Handler": "index.handler",
+        "Runtime": "nodejs8.10",
+        "CodeUri": "../../backend/lambda/functions/helloworld"
+      }
+    },
+    "AppSyncHelloWorldDataSource": {
+      "Type": "AWS::AppSync::DataSource",
+      "Properties" : {
+        "Type" : "AWS_LAMBDA",
+        "Name" : "HelloWorld",
+        "ApiId": {"Fn::GetAtt": ["AppSyncApi", "ApiId"]},
+        "ServiceRoleArn": {"Fn::GetAtt": ["LambdaRole", "Arn"]},
+        "LambdaConfig": {"Fn::GetAtt": ["HelloWorldLambda", "Arn"]}
       }
     }
   }
