@@ -2,5 +2,5 @@
 set -e
 
 cd backend
-docker-compose up --build &
+docker-compose stop &
 cd ..
