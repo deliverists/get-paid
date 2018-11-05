@@ -1,42 +1,20 @@
 import express from 'express'
 import cors from 'cors'
 import graphqlHTTP from 'express-graphql'
-import Aws from 'aws-sdk'
+
 import { readTextFile } from 'lib/local-file'
+import { get, add } from 'lib/timesheet-entry'
 import buildSchema from './build-schema'
 
-const initialiseAws = () => {
-  Aws.config.update({ region: 'us-east-1' })
-}
-
-const initialiseDyanmo = () =>
-  new Aws.DynamoDB.DocumentClient({
-    endpoint: new Aws.Endpoint('http://localhost:8000'),
-  })
-
 export default async () => {
-  initialiseAws()
-  const dynamo = initialiseDyanmo()
-
   const port = process.env.PORT || 3000
   const server = express()
 
   const schema = buildSchema(await readTextFile('./templates/schema.graphql'))
 
-  const invoice = params =>
-    dynamo
-      .get({
-        Key: {
-          id: params.id,
-        },
-        TableName: 'Invoices',
-      })
-      .promise()
-      .then(data => data.Item)
-
   const rootValue = {
-    invoice,
-    something: params => `oh hai${params.id}`,
+    timesheetEntry: get,
+    addTimesheetEntry: add,
   }
 
   server.use(cors())

@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   extends: ['airbnb-base', 'plugin:prettier/recommended'],
   env: {
     node: true,
@@ -12,14 +13,16 @@ module.exports = {
       'always',
       {
         js: 'never',
-        mjs: 'never',
+        mjs: 'always',
       },
     ],
   },
   settings: {
-    'import/external-module-folders': ['src'],
     'import/resolver': {
-      node: { extensions: ['.js', '.mjs'] },
+      node: {
+        extensions: ['.js', '.mjs'],
+        paths: ['node_modules/lib'],
+      },
     },
   },
 }

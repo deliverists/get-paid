@@ -14,6 +14,7 @@ eating garbage out of golden plates
  * run genymotion and start up an android virtual device (TODO: automate this on the cli using gmtool as part of Genymotion 2.5.0 - paid license)
  * `adb reverse tcp:3000 tcp:3000` to open up the localhost 3000 port to the android emulator
  * for lambda local: python 2.7, pip and: `pip install --user aws-sam-cli`
+ * postgres (for psql): `brew install postgres`
 
 ## running locally:
 
@@ -28,6 +29,25 @@ eating garbage out of golden plates
  * interact with dynamodb with the awscli: `aws dynamodb <command> --endpoint-url http://localhost:8000`
  * browse to graphql: `http://localhost:3000/graphql`
  * browse to the react website: `http://localhost:3001/`
+ * interacting with postgres locally: `psql -h localhost -p 5432 -U postgres -W`
+
+ * example graphql query to try:
+
+ ```
+  query getTimesheetEntry($id: ID!) {
+    timesheetEntry(id: $id) {
+      id,
+      date
+    }
+  }
+
+  mutation AddTimesheetEntry($date: String!) {
+    addTimesheetEntry(date: $date) {
+          id,
+      date
+    }
+  }
+```
 
 ## todo
 

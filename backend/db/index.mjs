@@ -13,13 +13,13 @@ const executeasync = async () => {
     operatorsAliases: false,
   })
 
-  const Timesheet = sequelize.define('timesheet', {
-    name: Sequelize.STRING,
+  const TimesheetEntry = sequelize.define('timesheet_entry', {
+    date: Sequelize.STRING,
   })
 
   await sequelize.sync()
-  const result = await Timesheet.create({
-    name: 'nick',
+  const result = await TimesheetEntry.create({
+    date: 'nick',
   })
   console.log(result.toJSON())
   await sequelize.close()

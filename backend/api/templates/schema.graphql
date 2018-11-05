@@ -1,11 +1,14 @@
-type Invoice {
+type TimesheetEntry {
   id: ID!
   date: String
 }
-type Root {
-  invoice(id: ID!): Invoice
-  something(id: string): string
+type Query {
+  timesheetEntry(id: ID!): TimesheetEntry
+}
+type Mutation {
+  addTimesheetEntry(date: String): TimesheetEntry
 }
 schema {
-  query: Root
+  query: Query
+  mutation: Mutation
 }
