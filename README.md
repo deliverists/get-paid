@@ -54,6 +54,13 @@ eating garbage out of golden plates
   }
 ```
 
+```
+{
+  "id": 1,
+  "date": "booyah"
+}
+```
+
 ## creating the ecs cluster:
 
 create a key pair:
