@@ -15,6 +15,11 @@ eating garbage out of golden plates
  * `adb reverse tcp:3000 tcp:3000` to open up the localhost 3000 port to the android emulator
  * for lambda local: python 2.7, pip and: `pip install --user aws-sam-cli`
  * postgres (for psql): `brew install postgres`
+ * aws ecs cli:
+    1. `sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-darwin-amd64-latest`
+    2. `sudo chmod +x /usr/local/bin/ecs-cli`
+    3. `ecs-cli --version`
+    4. `ecs-cli configure profile --profile-name profile_name --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY`
 
 ## running locally:
 
@@ -48,6 +53,46 @@ eating garbage out of golden plates
     }
   }
 ```
+
+## creating the ecs cluster:
+
+create a key pair:
+from: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair
+(https://docs.aws.amazon.com/cli/latest/reference/ec2/create-key-pair.html)
+
+ 1. `aws ec2 create-key-pair --key-name "get-paid-key" --region us-east-1`
+ 2. save the ascii output (KeyMaterial) to a file - this is your private key (pem file)
+
+from: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-cli-tutorial-ec2.html
+
+ 1. `ecs-cli configure --cluster get-paid --region us-east-1 --default-launch-type EC2` - store config for cluster locally
+ 3. `ecs-cli up –-keypair get-paid-key –-size 1 --instance-type t3.nano --capability-iam`
+
+to delete the cluster:
+
+ 3. `ecs-cli down --cluster get-paid`
+
+putting the image in the ECR:
+
+ 1. create the ECR repo: `aws ecr create-repository --repository-name get-paid --region us-east-1`
+ 2. tag the image wth the repositoryUri: `docker tag get-paid-api 277625601220.dkr.ecr.us-east-1.amazonaws.com/get-paid`
+ 3. get the ecr login command: `aws ecr get-login --no-include-email --region us-east-1`
+ 4. run the command returned
+ 5. push the image to the repo: `docker push 277625601220.dkr.ecr.us-east-1.amazonaws.com/get-paid`
+
+to delete the image:
+ 
+ 1. `aws ecr delete-repository --repository-name get-paid-api --force --region us-east-1`
+
+deploy the compose file to the cluster:
+
+ 1. set the docker registry url: `DOCKER_REGISTRY=277625601220.dkr.ecr.us-east-1.amazonaws.com/get-paid`
+ 2. `ecs-cli compose up` (in backend directory with the docker-compose.yml and ecs-params.yml file)
+ 3. see status of cluster: `ecs-cli ps`
+
+test out container:
+
+ 1. ???
 
 ## todo
 

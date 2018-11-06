@@ -2,7 +2,7 @@ version: "3"
 services:
   api:
     build: ./api
-    image: get-paid-api:latest
+    image: ${DOCKER_REGISTRY}
     container_name: get-paid-api
     env_file: .env
     environment:
@@ -13,7 +13,7 @@ services:
       - db
   db:
     build: ./db
-    image: get-paid-db:latest
+    image: postgres:latest
     container_name: get-paid-db
     env_file: .env
     ports:

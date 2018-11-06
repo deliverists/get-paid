@@ -5,3 +5,4 @@ node_modules/
 infrastructure/templates/get-paid.json
 .expo/
 yarn-error.log
+*.pem
