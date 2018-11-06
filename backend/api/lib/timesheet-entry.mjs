@@ -11,7 +11,6 @@ export const get = args => {
 }
 
 export const add = args => {
-  console.log('arse', args)
   const query = new pg.ParameterizedQuery(
     `INSERT INTO "${tableName}"(date, "createdAt", "updatedAt") VALUES($1, $2, $3) RETURNING id, date`,
     [args.date, new Date(), new Date()],
