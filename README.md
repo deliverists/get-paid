@@ -112,6 +112,11 @@ test out container:
     * create a shared package for read-local-file so we aren't importing between packages
  * are the templates in the cloudformation s3 bucket shared across branches - potential bleed problem?
 
+### authentication
+
+ * https://medium.com/@mjw56/graphql-authentication-with-passport-d75c08d5fbdc
+ * https://blog.apollographql.com/a-guide-to-authentication-in-graphql-e002a4039d1
+
 ### backend:
 
  * fix up the docker / be startup scripts - and be update scripts
