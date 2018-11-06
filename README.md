@@ -114,8 +114,17 @@ test out container:
 
 ### backend:
 
+ * fix up the docker / be startup scripts - and be update scripts
+ * add in the schema setup/ migrations into both local and remote scripts
+ * create a BE STOP script and START script to reduce costs
  * get cloud hosting of graph+postgres docker containers working
  * get linting around import - mjs + lib folder working
+ * move onto rds?
+
+### ecs:
+
+ * docker compose to change port whether locally (3000) or on ecs (80)
+ * move ecs onto ssl
 
 ### graphql:
 
